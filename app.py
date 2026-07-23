@@ -103,15 +103,16 @@ def api_download():
     out_template = os.path.join(my_dir, f"%(artist,uploader)s ~ %(title)s [{job_id}].%(ext)s")
 
     command = [
-        sys.executable, "-m", "yt_dlp",
-        "--no-playlist",
+        sys.executable,
+        "-m",
+        "yt_dlp",
+        "--no-playlist",    
+        "-f", "ba/b",  # шукає найкраще аудіо або найкращий доступний формат
         "-x",
-        "--extractor-args", "youtube:player_client=android",
         "--audio-format", "mp3",
         "--audio-quality", "0",
-        "-o", out_template,
-        url,
     ]
+
     if os.path.isfile(COOKIES_FILE):
         command.extend(["--cookies", COOKIES_FILE])
 
