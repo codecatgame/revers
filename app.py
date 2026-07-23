@@ -120,6 +120,13 @@ def api_download():
 
     if result.returncode != 0:
         return jsonify(ok=False, error="Не вдалося обробити це посилання."), 502
+                print(result.stdout)
+        print(result.stderr)
+    
+        return jsonify(
+            ok=False,
+            error=result.stderr or result.stdout
+        ), 502
 
     after = set(os.listdir(my_dir))
     new_files = [f for f in (after - before) if f.endswith(".mp3")]
