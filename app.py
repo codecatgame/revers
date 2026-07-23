@@ -106,16 +106,20 @@ def api_download():
         sys.executable,
         "-m",
         "yt_dlp",
-        "--no-playlist",    
-        "-f", "ba/b",  # шукає найкраще аудіо або найкращий доступний формат
+        "--no-playlist",
+        "-f", "ba/b",
         "-x",
         "--audio-format", "mp3",
         "--audio-quality", "0",
+        "-o", out_template,  # <-- Додали збереження за вашим шаблоном
     ]
-
+    
+    # 2. Додаємо кукі (якщо є)
     if os.path.isfile(COOKIES_FILE):
         command.extend(["--cookies", COOKIES_FILE])
-
+    
+    # 3. І тільки в самому кінці, ОДИН РАЗ додаємо URL:
+    command.append(url)
     try:
         result = subprocess.run(
             command, capture_output=True, text=True, timeout=300
