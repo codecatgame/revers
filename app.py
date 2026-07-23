@@ -112,6 +112,8 @@ def api_download():
         "-o", out_template,
         url,
     ]
+    if os.path.isfile(COOKIES_FILE):
+        command.extend(["--cookies", COOKIES_FILE])
 
     try:
         result = subprocess.run(
