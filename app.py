@@ -13,6 +13,7 @@
 import os
 import re
 import uuid
+import sys
 import secrets
 import subprocess
 from datetime import timedelta
@@ -101,7 +102,7 @@ def api_download():
     out_template = os.path.join(my_dir, f"%(artist,uploader)s ~ %(title)s [{job_id}].%(ext)s")
 
     command = [
-        "python", "-m", "yt_dlp",
+        sys.executable, "-m", "yt_dlp",
         "--no-playlist",
         "-x",
         "--audio-format", "mp3",
