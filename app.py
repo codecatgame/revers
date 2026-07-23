@@ -21,7 +21,7 @@ from flask import (
     send_from_directory, session, abort
 )
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 
 # У продакшні обов'язково задай постійний секрет через змінну середовища,
 # інакше після кожного перезапуску сервера всі старі cookie-сесії "зламаються"
