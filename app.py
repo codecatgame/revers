@@ -20,9 +20,10 @@ from flask import (
     Flask, render_template, request, jsonify,
     send_from_directory, session, abort
 )
+from flask_cors import CORS
 
 app = Flask(__name__, template_folder='.')
-
+CORS(app)
 # У продакшні обов'язково задай постійний секрет через змінну середовища,
 # інакше після кожного перезапуску сервера всі старі cookie-сесії "зламаються"
 # і люди побачать порожню полицю (хоч файли на диску й лишаться).
