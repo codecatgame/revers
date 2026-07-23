@@ -106,6 +106,7 @@ def api_download():
         sys.executable, "-m", "yt_dlp",
         "--no-playlist",
         "-x",
+        "--extractor-args", "youtube:player_client=android",
         "--audio-format", "mp3",
         "--audio-quality", "0",
         "-o", out_template,
