@@ -117,19 +117,16 @@ def api_download():
         )
     except subprocess.TimeoutExpired:
         return jsonify(ok=False, error="Занадто довго — спробуй інше посилання."), 504
-
     if result.returncode != 0:
-        return jsonify(ok=False, error="Не вдалося обробити це посилання."), 502
-                print(result.stdout)
+        print(result.stdout)
         print(result.stderr)
     
         return jsonify(
             ok=False,
             error=result.stderr or result.stdout
         ), 502
-
-    after = set(os.listdir(my_dir))
-    new_files = [f for f in (after - before) if f.endswith(".mp3")]
+        after = set(os.listdir(my_dir))
+        new_files = [f for f in (after - before) if f.endswith(".mp3")]
 
     if not new_files:
         return jsonify(ok=False, error="Файл не з'явився. Перевір посилання."), 502
