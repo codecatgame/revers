@@ -21,6 +21,8 @@ from flask import (
     send_from_directory, session, abort
 )
 from flask_cors import CORS
+import static_ffmpeg
+static_ffmpeg.add_paths()
 
 app = Flask(__name__, template_folder='.')
 CORS(app)
