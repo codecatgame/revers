@@ -433,6 +433,31 @@ body {
     border-bottom: 1px dashed var(--line);
 }
 
+.shelf__cover {
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shelf__coverImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.shelf__coverFallback {
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
 .shelf__play {
     flex: 0 0 auto;
     width: 38px;
