@@ -1,5 +1,3 @@
-const API_URL = 'https://revers-ahuj.onrender.com';
-
 const form = document.getElementById('downloadForm');
 const urlInput = document.getElementById('urlInput');
 const pasteBtn = document.getElementById('pasteBtn');
@@ -19,7 +17,7 @@ function setStatus(text, kind) {
     if (kind) statusLine.classList.add(kind);
 }
 
-pasteBtn.addEventListener('click', async () => {
+pasteBtn.addEventListener('click', async() => {
     try {
         const text = (await navigator.clipboard.readText()).trim();
         if (!text) {
@@ -37,7 +35,7 @@ pasteBtn.addEventListener('click', async () => {
     }
 });
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async(e) => {
     e.preventDefault();
     const url = urlInput.value.trim();
 
@@ -51,10 +49,9 @@ form.addEventListener('submit', async (e) => {
     setStatus('Дека крутиться, витягуємо звук...');
 
     try {
-        const res = await fetch(`${API_URL}/api/download`, {
+        const res = await fetch('/api/download', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
             body: JSON.stringify({ url })
         });
 
@@ -78,9 +75,7 @@ form.addEventListener('submit', async (e) => {
 
 async function loadShelf() {
     try {
-        const res = await fetch(`${API_URL}/api/library`, {
-            credentials: 'include'
-        });
+        const res = await fetch('/api/library');
         const data = await res.json();
         const files = data.files || [];
 
@@ -91,22 +86,24 @@ async function loadShelf() {
             return;
         }
 
-        shelfList.innerHTML = files.map((f) => {
-            const fileUrl = f.url.startsWith('http') ? f.url : `${API_URL}${f.url}`;
-            return `
-              <li class="shelf__item" data-url="${fileUrl}">
-                <button class="shelf__play" aria-label="Слухати">
-                  <span class="shelf__playIcon">▶</span>
-                </button>
-                <div class="shelf__meta">
-                  <span class="shelf__title">${escapeHtml(f.title)}</span>
-                  <span class="shelf__artist">${escapeHtml(f.artist)}</span>
-                  <div class="shelf__progress"><div class="shelf__progressBar"></div></div>
-                </div>
-                <a class="shelf__dl" href="${fileUrl}" download title="Завантажити файл">⬇</a>
-              </li>
-            `;
-        }).join('');
+        shelfList.innerHTML = files.map((f, i) => `
+      <li class="shelf__item" data-url="${f.url}">
+        <div class="shelf__cover">
+          ${f.cover
+            ? `<img src="${f.cover}" alt="" class="shelf__coverImg" loading="lazy">`
+            : `<span class="shelf__coverFallback">♪</span>`}
+        </div>
+        <button class="shelf__play" aria-label="Слухати">
+          <span class="shelf__playIcon">▶</span>
+        </button>
+        <div class="shelf__meta">
+          <span class="shelf__title">${escapeHtml(f.title)}</span>
+          <span class="shelf__artist">${escapeHtml(f.artist)}</span>
+          <div class="shelf__progress"><div class="shelf__progressBar"></div></div>
+        </div>
+        <a class="shelf__dl" href="${f.url}" download title="Завантажити файл">⬇</a>
+      </li>
+    `).join('');
 
         shelfList.querySelectorAll('.shelf__play').forEach(btn => {
             btn.addEventListener('click', () => togglePlay(btn));
